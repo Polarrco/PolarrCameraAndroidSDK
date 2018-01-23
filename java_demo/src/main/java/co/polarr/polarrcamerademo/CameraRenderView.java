@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -53,7 +52,6 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
     //    private final Shader mOffscreenShader = new Shader();
     private PolarrRender polarrRender = new PolarrRender();
     private int mOutputTexture;
-    private int mGridOutputTexture;
     private int mWidth, mHeight;
     private boolean updateTexture = false;
     private float[] mOrientationM = new float[16];
@@ -116,13 +114,12 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
         mHeight = height;
 
         mOutputTexture = genOutputTexture();
-        mGridOutputTexture = genOutputTexture();
         polarrRender.setOutputTexture(mOutputTexture);
 
         long startTime = System.currentTimeMillis();
         polarrRender.updateSize(mWidth, mHeight);
         Log.d("updateSize", (System.currentTimeMillis() - startTime) + "ms");
-
+        Log.d("ver", PolarrRender.Version());
         //generate camera texture------------------------
         mCameraTexture.init();
         if (DEBUG_DEMO_TEXTURE2D_INPUT) {
@@ -230,12 +227,12 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
         if (drawingItems != null) {
             long startTime = System.currentTimeMillis();
 
-            polarrRender.drawFiltersFrame(drawingItems, mGridOutputTexture);
+            polarrRender.drawFiltersFrame(drawingItems, mOutputTexture);
 
             GLES20.glViewport(0, 0, mWidth, mHeight);
 
             Basic filter = Basic.getInstance(getResources());
-            filter.setInputTextureId(mGridOutputTexture);
+            filter.setInputTextureId(mOutputTexture);
 
             if (DEBUG_DEMO_TEXTURE2D_INPUT) {
                 Matrix.scaleM(filter.getMatrix(), 0, 1, -1, 1);
