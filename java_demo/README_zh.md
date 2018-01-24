@@ -81,28 +81,28 @@ SDK 内置了泼辣修图的滤镜包，滤镜包数据内置于renderer module�
 ### 内置滤镜说明
 通用系列
 ```java
-FilterPackageUtil.F_COMMON_1 // 日系
-FilterPackageUtil.F_COMMON_2 // 自然
-FilterPackageUtil.F_COMMON_3 // 清晰
-FilterPackageUtil.F_COMMON_4 // 海泡岩
-FilterPackageUtil.F_COMMON_5 // 黑白
-FilterPackageUtil.F_COMMON_6 // M1
+FilterPackageUtil.F_COMMON_1 // 和风抹茶
+FilterPackageUtil.F_COMMON_2 // 秋天童话
+FilterPackageUtil.F_COMMON_3 // 青柠奶泡
+FilterPackageUtil.F_COMMON_4 // 海盐泡芙
+FilterPackageUtil.F_COMMON_5 // 黑咖啡
+FilterPackageUtil.F_COMMON_6 // 奇幻城堡
 ```
 前置系列
 ```java
-FilterPackageUtil.F_FRONT_1 // 冰沙
-FilterPackageUtil.F_FRONT_2 // 蓝湖
-FilterPackageUtil.F_FRONT_3 // 巴黎10
-FilterPackageUtil.F_FRONT_4 // T2
-FilterPackageUtil.F_FRONT_5 // 缪斯
+FilterPackageUtil.F_FRONT_1 // 西柚冰沙
+FilterPackageUtil.F_FRONT_2 // 蓝莓松饼
+FilterPackageUtil.F_FRONT_3 // 雪域芝士
+FilterPackageUtil.F_FRONT_4 // 浆果奶酪
+FilterPackageUtil.F_FRONT_5 // 奶油慕斯
 ```
 后置系列
 ```java
-FilterPackageUtil.F_BACK_1 // M3
-FilterPackageUtil.F_BACK_2 // T1
-FilterPackageUtil.F_BACK_3 // C1
-FilterPackageUtil.F_BACK_4 // Electric
-FilterPackageUtil.F_BACK_5 // S109
+FilterPackageUtil.F_BACK_1 // 花样年华
+FilterPackageUtil.F_BACK_2 // 情书
+FilterPackageUtil.F_BACK_3 // 2046
+FilterPackageUtil.F_BACK_4 // 莓果布丁
+FilterPackageUtil.F_BACK_5 // 重庆森林
  ```
 光效系列
 ```java

@@ -1,25 +1,25 @@
 #ifndef POLARR_RENDER_H
 #define POLARR_RENDER_H 1
 
-#define POLARR_SDK_VERSION "1.0.0_b11"
+#define POLARR_SDK_VERSION "1.0.0_b12"
 
 enum POLARR_FILTER {
-    F_COMMON_1,// 日系
-    F_COMMON_2,// 自然
-    F_COMMON_3,// 清晰
-    F_COMMON_4,// 海泡岩
-    F_COMMON_5,// 黑白
-    F_COMMON_6,// M1
-    F_FRONT_1,// 冰沙
-    F_FRONT_2,// 蓝湖
-    F_FRONT_3,// 巴黎10
-    F_FRONT_4,// T2
-    F_FRONT_5,// 缪斯
-    F_BACK_1,// M3
-    F_BACK_2,// T1
-    F_BACK_3,// C1
-    F_BACK_4,// Electric
-    F_BACK_5,// S109
+    F_COMMON_1,// 和风抹茶
+    F_COMMON_2,// 秋天童话
+    F_COMMON_3,// 青柠奶泡
+    F_COMMON_4,// 海盐泡芙
+    F_COMMON_5,// 黑咖啡
+    F_COMMON_6,// 奇幻城堡
+    F_FRONT_1,// 西柚冰沙
+    F_FRONT_2,// 蓝莓松饼
+    F_FRONT_3,// 雪域芝士
+    F_FRONT_4,// 浆果奶酪
+    F_FRONT_5,// 奶油慕斯
+    F_BACK_1,// 花样年华
+    F_BACK_2,// 情书
+    F_BACK_3,// 2046
+    F_BACK_4,// 莓果布丁
+    F_BACK_5,// 重庆森林
     F_MODE_1, //模式1
     F_MODE_2, //模式2
     F_MODE_3, //模式3
