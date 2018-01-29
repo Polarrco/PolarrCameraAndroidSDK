@@ -347,6 +347,8 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
                 }
 
                 Arrays.fill(frameList, -1);
+
+                polarrRender.clearTexture(mOutputTexture, mWidth, mHeight);
             }
         });
     }

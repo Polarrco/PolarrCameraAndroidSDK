@@ -123,6 +123,12 @@ polarrRender.fastUpdateFilter(filterId);
 ```java
 polarrRender.fastUpdateFilter(FilterPackageUtil.F_DEFAULT);
 ```
+## 渲染相关工具
+### 清除一个Texture
+将Texture的全部区域的像素值设置为 RGBA(0,0,0,0)
+```java
+polarrRender.clearTexture(texId, texWidth, texHeight);
+```
 ## 获取版本号
 ```java
 String version = PolarrRender.Version();
