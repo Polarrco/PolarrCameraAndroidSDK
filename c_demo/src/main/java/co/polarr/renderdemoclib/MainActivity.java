@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 prepareYUVDemoData(getApplicationContext(), 0);
-
+//                showYuv(yuvData);
                 PolarrRenderJni.init(w, h, stride, scanline, true);
                 yuvData = PolarrRenderJni.updateYUVData(yuvData);
                 PolarrRenderJni.release();
@@ -117,6 +117,21 @@ public class MainActivity extends Activity {
                 scanline = 1984;
             }
             break;
+            case 5: {
+                fileName = "IMG20180101001748_2624x1984_filter_in_id131.yuv";
+                w = 2592;
+                h = 1940;
+                stride = 2624;
+                scanline = 1984;
+            }
+            case 6: {
+                fileName = "IMG20180101001748_2624x1984_filter_in_id131.yuv";
+                w = 1280;
+                h = 720;
+                stride = 1280;
+                scanline = 720;
+            }
+            break;
         }
 
         yuvData = new byte[stride * scanline * 3 / 2];
@@ -134,14 +149,14 @@ public class MainActivity extends Activity {
         Allocation bmData = null;
         bmData = renderScriptNV21ToRGBA888(
                 this,
-                w,
-                h,
+                stride,
+                scanline,
                 yuvData);
 
-        Bitmap stitchBmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Bitmap stitchBmp = Bitmap.createBitmap(stride, scanline, Bitmap.Config.ARGB_8888);
         bmData.copyTo(stitchBmp);
 
-        stitchBmp = getRotatedImage(stitchBmp, 90);
+//        stitchBmp = getRotatedImage(stitchBmp, 90);
         final Bitmap finalStitchBmp = stitchBmp;
         runOnUiThread(new Runnable() {
             @Override
