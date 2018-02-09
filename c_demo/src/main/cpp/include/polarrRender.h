@@ -1,7 +1,7 @@
 #ifndef POLARR_RENDER_H
 #define POLARR_RENDER_H 1
 
-#define POLARR_SDK_VERSION "1.0.0_b13"
+#define POLARR_SDK_VERSION "1.0.0_b14"
 
 enum POLARR_FILTER {
     F_COMMON_1,// 和风抹茶
