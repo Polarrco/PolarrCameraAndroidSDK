@@ -95,7 +95,7 @@ Java_co_polarr_render_PolarrRenderJni_updateYUVData(JNIEnv *env, jclass type,
 
     startTime = currentTimeInMilliseconds();
 
-    polarrRender->applyFilter(yuvBytes);
+    polarrRender->applyFilter(yuvBytes, INPUT_YUV_TYPE_NV21);
     during = currentTimeInMilliseconds() - startTime;
     ALOGD("APPLY FILTER:%"
                   PRId64

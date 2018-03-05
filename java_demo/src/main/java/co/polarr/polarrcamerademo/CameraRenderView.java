@@ -227,6 +227,14 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
         if (drawingItems != null) {
             long startTime = System.currentTimeMillis();
 
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mOutputTexture);
+            GLES20.glDeleteTextures(1, new int[]{mOutputTexture}, 0);
+            GLES20.glFlush();
+
+            mOutputTexture = genOutputTexture();
+
+            polarrRender.clearTexture(mOutputTexture, mWidth, mHeight);
+
             polarrRender.drawFiltersFrame(drawingItems, mOutputTexture);
 
             GLES20.glViewport(0, 0, mWidth, mHeight);

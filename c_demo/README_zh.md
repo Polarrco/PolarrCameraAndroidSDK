@@ -50,14 +50,23 @@ enum POLARR_FILTER {
 polarrRender->initFilter(F_COMMON_1);
 ```
 ### 应用滤镜（连续的YUV数据）
-该接口将复用输入数组, yuv格式为 YUV420 NV21
+该接口将复用输入数组
 ```objectivec
-polarrRender->applyFilter(yuvBytes);
+INPUT_YUV_TYPE yuvType = INPUT_YUV_TYPE_NV21;
+polarrRender->applyFilter(yuvBytes, yuvType);
 ```
 ### 应用滤镜（分离的Y、UV数据）
-该接口将复用输入数组, yuv格式为 YUV420 NV21
+该接口将复用输入数组
 ```objectivec
-polarrRender->applyFilterYUV(yBytes, uvBytes);
+INPUT_YUV_TYPE yuvType = INPUT_YUV_TYPE_NV12;
+polarrRender->applyFilterYUV(yBytes, uvBytes, yuvType);
+```
+### 支持的YUV格式
+```objectivec
+enum INPUT_YUV_TYPE {
+    INPUT_YUV_TYPE_NV21,    // YUV420 NV21
+    INPUT_YUV_TYPE_NV12     // YUV420 NV12
+};
 ```
 ## 释放资源
 ```objectivec

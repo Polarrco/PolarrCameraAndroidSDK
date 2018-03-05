@@ -1,7 +1,12 @@
 #ifndef POLARR_RENDER_H
 #define POLARR_RENDER_H 1
 
-#define POLARR_SDK_VERSION "1.0.0_b14"
+#define POLARR_SDK_VERSION "1.1.0_b15"
+
+enum INPUT_YUV_TYPE {
+    INPUT_YUV_TYPE_NV21,
+    INPUT_YUV_TYPE_NV12
+};
 
 enum POLARR_FILTER {
     F_COMMON_1,// 和风抹茶
@@ -42,9 +47,9 @@ public:
 
     void initFilter(POLARR_FILTER filterType);
 
-    void applyFilter(unsigned char *inputBytes);
+    void applyFilter(unsigned char *inputBytes, INPUT_YUV_TYPE yuvType);
 
-    void applyFilterYUV(unsigned char *yBytes, unsigned char *uvBytes);
+    void applyFilterYUV(unsigned char *yBytes, unsigned char *uvBytes, INPUT_YUV_TYPE yuvType);
 
 private:
     RenderInternal *params;
