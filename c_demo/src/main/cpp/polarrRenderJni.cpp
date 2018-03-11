@@ -50,7 +50,7 @@ Java_co_polarr_render_PolarrRenderJni_init(JNIEnv *env, jclass type,
     startTime = currentTimeInMilliseconds();
 
     polarrRender->init(needEgl);
-    polarrRender->setYUVsize(width, height, stride, scanline);
+    polarrRender->setYUVsize(width, height, stride, scanline, INPUT_YUV_TYPE_NV21);
 
     during = currentTimeInMilliseconds() - startTime;
 

@@ -15,7 +15,8 @@ polarrRender->init(needEgl);
 ```
 ## 设置YUV尺寸
 ```objectivec
- polarrRender->setYUVsize(width, height, stride, scanline);
+INPUT_YUV_TYPE yuvType = INPUT_YUV_TYPE_NV12;
+ polarrRender->setYUVsize(width, height, stride, scanline, yuvType);
 ```
 ## 滤镜
 ### 滤镜列表
@@ -65,7 +66,8 @@ polarrRender->applyFilterYUV(yBytes, uvBytes, yuvType);
 ```objectivec
 enum INPUT_YUV_TYPE {
     INPUT_YUV_TYPE_NV21,    // YUV420 NV21
-    INPUT_YUV_TYPE_NV12     // YUV420 NV12
+    INPUT_YUV_TYPE_NV12,    // YUV420 NV12
+    INPUT_YUV_TYPE_YV12     // YV12
 };
 ```
 ## 释放资源

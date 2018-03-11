@@ -1,11 +1,12 @@
 #ifndef POLARR_RENDER_H
 #define POLARR_RENDER_H 1
 
-#define POLARR_SDK_VERSION "1.1.0_b15"
+#define POLARR_SDK_VERSION "1.1.1_b16"
 
 enum INPUT_YUV_TYPE {
     INPUT_YUV_TYPE_NV21,
-    INPUT_YUV_TYPE_NV12
+    INPUT_YUV_TYPE_NV12,
+    INPUT_YUV_TYPE_YV12
 };
 
 enum POLARR_FILTER {
@@ -43,7 +44,7 @@ public:
     void init(bool needEgl);
 
     void setYUVsize(int width, int height,
-                    int stride, int scanline);
+                    int stride, int scanline, INPUT_YUV_TYPE yuvType);
 
     void initFilter(POLARR_FILTER filterType);
 
