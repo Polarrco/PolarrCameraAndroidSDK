@@ -5,7 +5,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "co.polarr.polarrcamerademo"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 24
         versionCode 5
         versionName "0.5"
