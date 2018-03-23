@@ -42,7 +42,7 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
     private static final int GRID_WIDTH = 320;
     private static final int GRID_HEIGHT = 480;
     private static final boolean DEBUG_DEMO_TEXTURE2D_INPUT = false;
-    private static final boolean DEBUG_DEMO_OES_INPUT = true;
+    private static final boolean DEBUG_DEMO_OES_INPUT = !true;
     private Context mContext;
 
     /**
