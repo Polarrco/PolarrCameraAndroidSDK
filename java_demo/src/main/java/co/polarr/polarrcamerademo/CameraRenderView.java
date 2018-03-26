@@ -123,7 +123,7 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
         mHeight = height;
 
         mOutputTexture = genOutputTexture();
-        polarrRender.setOutputTexture(mOutputTexture);
+//        polarrRender.setOutputTexture(mOutputTexture);
 
         long startTime = System.currentTimeMillis();
         polarrRender.updateSize(mWidth, mHeight);
@@ -277,7 +277,7 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
             GLES20.glViewport(0, 0, mWidth, mHeight);
             // demo draw screen
             Basic filter = Basic.getInstance(getResources());
-            filter.setInputTextureId(mOutputTexture);
+            filter.setInputTextureId(polarrRender.getOutputId());
             filter.setNeedClear(false);
 
             if (DEBUG_DEMO_TEXTURE2D_INPUT) {
@@ -386,7 +386,7 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
             @Override
             public void run() {
                 Bitmap bitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-                bitmap.copyPixelsFromBuffer(readTexture(mOutputTexture, mWidth, mHeight));
+                bitmap.copyPixelsFromBuffer(readTexture(polarrRender.getOutputId(), mWidth, mHeight));
 
                 onCaptureCallback.onPhoto(bitmap);
             }
@@ -396,7 +396,7 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
     private void resize(int width, int height) {
         polarrRender.updateSize(width, height);
 
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mOutputTexture);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, polarrRender.getOutputId());
         GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGB, width, height,
                 0, GLES20.GL_RGB, GLES20.GL_UNSIGNED_BYTE, null);
 
