@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 28
     defaultConfig {
         applicationId "co.polarr.polarrcamerademo"
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 28
         versionCode 8
-        versionName "0.8"
+        versionName "1.2"
     }
 
     buildTypes {
@@ -27,10 +26,10 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:24.2.1"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support:appcompat-v7:28.0.0"
 
     // render engine
-    compile(name: 'renderer-camera-release', ext: 'aar')
+    implementation(name: 'renderer-camera-release', ext: 'aar')
 
 }
