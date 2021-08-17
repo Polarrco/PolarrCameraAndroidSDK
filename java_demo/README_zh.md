@@ -1,6 +1,6 @@
 # 泼辣滤镜Camera SDK Java版版本
 ## 版权限制
-包含本SDK在内的所有版本库中的内容，属于Polarr, Inc.版权所有。未经允许均不得用于商业目的。当前版本的示例SDK失效时间为2018年1月31日。如需要获取完整授权等更多相关信息，请联系我们[info@polarr.co](mailto:info@polarr.co)
+包含本SDK在内的所有版本库中的内容，属于Polarr, Inc.版权所有。未经允许均不得用于商业目的。当前版本的示例SDK失效时间为2021年12月31日。如需要获取完整授权等更多相关信息，请联系我们[info@polarr.co](mailto:info@polarr.co)
 
 ## 增加 dependencies 到 Gradle文件
 ```groovy
@@ -81,28 +81,28 @@ SDK 内置了泼辣修图的滤镜包，滤镜包数据内置于renderer module�
 ### 内置滤镜说明
 通用系列
 ```java
-FilterPackageUtil.F_COMMON_1 // 日系
-FilterPackageUtil.F_COMMON_2 // 自然
-FilterPackageUtil.F_COMMON_3 // 清晰
-FilterPackageUtil.F_COMMON_4 // 海泡岩
-FilterPackageUtil.F_COMMON_5 // 黑白
-FilterPackageUtil.F_COMMON_6 // M1
+FilterPackageUtil.F_COMMON_1 // 和风抹茶
+FilterPackageUtil.F_COMMON_2 // 秋天童话
+FilterPackageUtil.F_COMMON_3 // 青柠奶泡
+FilterPackageUtil.F_COMMON_4 // 海盐泡芙
+FilterPackageUtil.F_COMMON_5 // 黑咖啡
+FilterPackageUtil.F_COMMON_6 // 奇幻城堡
 ```
 前置系列
 ```java
-FilterPackageUtil.F_FRONT_1 // 冰沙
-FilterPackageUtil.F_FRONT_2 // 蓝湖
-FilterPackageUtil.F_FRONT_3 // 巴黎10
-FilterPackageUtil.F_FRONT_4 // T2
-FilterPackageUtil.F_FRONT_5 // 缪斯
+FilterPackageUtil.F_FRONT_1 // 西柚冰沙
+FilterPackageUtil.F_FRONT_2 // 蓝莓松饼
+FilterPackageUtil.F_FRONT_3 // 雪域芝士
+FilterPackageUtil.F_FRONT_4 // 浆果奶酪
+FilterPackageUtil.F_FRONT_5 // 奶油慕斯
 ```
 后置系列
 ```java
-FilterPackageUtil.F_BACK_1 // M3
-FilterPackageUtil.F_BACK_2 // T1
-FilterPackageUtil.F_BACK_3 // C1
-FilterPackageUtil.F_BACK_4 // Electric
-FilterPackageUtil.F_BACK_5 // S109
+FilterPackageUtil.F_BACK_1 // 花样年华
+FilterPackageUtil.F_BACK_2 // 情书
+FilterPackageUtil.F_BACK_3 // 2046
+FilterPackageUtil.F_BACK_4 // 莓果布丁
+FilterPackageUtil.F_BACK_5 // 重庆森林
  ```
 光效系列
 ```java
@@ -122,6 +122,12 @@ polarrRender.fastUpdateFilter(filterId);
 ### 恢复默认效果
 ```java
 polarrRender.fastUpdateFilter(FilterPackageUtil.F_DEFAULT);
+```
+## 渲染相关工具
+### 清除一个Texture
+将Texture的全部区域的像素值设置为 RGBA(0,0,0,0)
+```java
+polarrRender.clearTexture(texId, texWidth, texHeight);
 ```
 ## 获取版本号
 ```java

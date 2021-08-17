@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
@@ -14,6 +16,7 @@ import android.opengl.GLUtils;
 import android.opengl.Matrix;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Surface;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -21,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -39,7 +41,8 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
     private static final int GRID_SIZE = 3;
     private static final int GRID_WIDTH = 320;
     private static final int GRID_HEIGHT = 480;
-    private static final boolean DEBUG_DEMO_TEXTURE2D_INPUT = !true;
+    private static final boolean DEBUG_DEMO_TEXTURE2D_INPUT = false;
+    private static final boolean DEBUG_DEMO_OES_INPUT = !true;
     private Context mContext;
 
     /**
@@ -53,7 +56,6 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
     //    private final Shader mOffscreenShader = new Shader();
     private PolarrRender polarrRender = new PolarrRender();
     private int mOutputTexture;
-    private int mGridOutputTexture;
     private int mWidth, mHeight;
     private boolean updateTexture = false;
     private float[] mOrientationM = new float[16];
@@ -104,7 +106,12 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
 
     @Override
     public synchronized void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        polarrRender.initRender(getResources(), 2, 2, true, DEBUG_DEMO_TEXTURE2D_INPUT ? PolarrRender.TEXTURE_2D : PolarrRender.EXTERNAL_OES);
+        int texType = PolarrRender.EXTERNAL_OES;
+        if (DEBUG_DEMO_TEXTURE2D_INPUT) {
+            texType = PolarrRender.TEXTURE_2D;
+        }
+
+        polarrRender.initRender(getResources(), 2, 2, true, texType);
     }
 
     @Override
@@ -116,13 +123,12 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
         mHeight = height;
 
         mOutputTexture = genOutputTexture();
-        mGridOutputTexture = genOutputTexture();
-        polarrRender.setOutputTexture(mOutputTexture);
+//        polarrRender.setOutputTexture(mOutputTexture);
 
         long startTime = System.currentTimeMillis();
         polarrRender.updateSize(mWidth, mHeight);
         Log.d("updateSize", (System.currentTimeMillis() - startTime) + "ms");
-
+        Log.d("ver", PolarrRender.Version());
         //generate camera texture------------------------
         mCameraTexture.init();
         if (DEBUG_DEMO_TEXTURE2D_INPUT) {
@@ -141,6 +147,21 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
             bitmap.recycle();
 
             polarrRender.setInputTexture(inputTexture);
+        } else if (DEBUG_DEMO_OES_INPUT) {
+            OESTexture oesTexture = new OESTexture();
+            oesTexture.init();
+            SurfaceTexture mSurfaceTexture = new SurfaceTexture(oesTexture.getTextureId());
+            Surface mSurface = new Surface(mSurfaceTexture);
+            mSurfaceTexture.setDefaultBufferSize(mWidth, mHeight);
+            Canvas surfaceCanvas = mSurface.lockCanvas(null);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.sample);
+            surfaceCanvas.drawBitmap(bitmap, 0, 0, new Paint());
+            bitmap.recycle();
+            mSurface.unlockCanvasAndPost(surfaceCanvas);
+            mSurfaceTexture.updateTexImage();
+            mSurface.release();
+            mSurfaceTexture.release();
+            polarrRender.setInputTexture(oesTexture.getTextureId());
         } else {
             polarrRender.setInputTexture(mCameraTexture.getTextureId());
         }
@@ -230,15 +251,17 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
         if (drawingItems != null) {
             long startTime = System.currentTimeMillis();
 
-            polarrRender.drawFiltersFrame(drawingItems, mGridOutputTexture);
+            polarrRender.drawFiltersFrame(drawingItems, mOutputTexture);
 
             GLES20.glViewport(0, 0, mWidth, mHeight);
 
             Basic filter = Basic.getInstance(getResources());
-            filter.setInputTextureId(mGridOutputTexture);
+            filter.setInputTextureId(mOutputTexture);
 
             if (DEBUG_DEMO_TEXTURE2D_INPUT) {
                 Matrix.scaleM(filter.getMatrix(), 0, 1, -1, 1);
+            } else if (DEBUG_DEMO_OES_INPUT) {
+                Matrix.scaleM(filter.getMatrix(), 0, 1, 1, 1);
             } else {
                 // update the matrix for camera orientation
                 Matrix.setIdentityM(filter.getMatrix(), 0);
@@ -254,11 +277,13 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
             GLES20.glViewport(0, 0, mWidth, mHeight);
             // demo draw screen
             Basic filter = Basic.getInstance(getResources());
-            filter.setInputTextureId(mOutputTexture);
+            filter.setInputTextureId(polarrRender.getOutputId());
             filter.setNeedClear(false);
 
             if (DEBUG_DEMO_TEXTURE2D_INPUT) {
                 Matrix.scaleM(filter.getMatrix(), 0, 1, -1, 1);
+            } else if (DEBUG_DEMO_OES_INPUT) {
+                Matrix.scaleM(filter.getMatrix(), 0, 1, 1, 1);
             } else {
                 // update the matrix for camera orientation
                 Matrix.setIdentityM(filter.getMatrix(), 0);
@@ -350,6 +375,8 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
                 }
 
                 Arrays.fill(frameList, -1);
+
+                polarrRender.clearTexture(mOutputTexture, mWidth, mHeight);
             }
         });
     }
@@ -359,7 +386,7 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
             @Override
             public void run() {
                 Bitmap bitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-                bitmap.copyPixelsFromBuffer(readTexture(mOutputTexture, mWidth, mHeight));
+                bitmap.copyPixelsFromBuffer(readTexture(polarrRender.getOutputId(), mWidth, mHeight));
 
                 onCaptureCallback.onPhoto(bitmap);
             }
@@ -369,7 +396,7 @@ public class CameraRenderView extends GLSurfaceView implements GLSurfaceView.Ren
     private void resize(int width, int height) {
         polarrRender.updateSize(width, height);
 
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mOutputTexture);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, polarrRender.getOutputId());
         GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGB, width, height,
                 0, GLES20.GL_RGB, GLES20.GL_UNSIGNED_BYTE, null);
 

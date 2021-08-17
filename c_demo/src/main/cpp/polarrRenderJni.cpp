@@ -6,6 +6,9 @@
 #include <time.h>
 #include <inttypes.h>
 #include <android/log.h>
+#include <string.h>
+#include <malloc.h>
+
 
 #include "polarrRender.h"
 
@@ -41,8 +44,20 @@ Java_co_polarr_render_PolarrRenderJni_init(JNIEnv *env, jclass type,
                                            jboolean needEgl) {
     polarrRender = new PolarrRender;
 
+    long during;
+    long long startTime;
+
+    startTime = currentTimeInMilliseconds();
+
     polarrRender->init(needEgl);
-    polarrRender->setYUVsize(width, height, stride, scanline);
+    polarrRender->setYUVsize(width, height, stride, scanline, INPUT_YUV_TYPE_NV21);
+
+    during = currentTimeInMilliseconds() - startTime;
+
+    ALOGD("Init sdk:%"
+                  PRId64
+                  "ms", during);
+
 
 }
 
@@ -59,12 +74,18 @@ Java_co_polarr_render_PolarrRenderJni_updateYUVData(JNIEnv *env, jclass type,
     int len = env->GetArrayLength(yuvArr);
     unsigned char *yuvBytes = as_unsigned_char_array(env, yuvArr);
 
+//    int size = len * 2 / 3;
+//    u_char *yBytes = (u_char *) malloc(sizeof(u_char) * size);
+//    u_char *uvBytes = (u_char *) malloc(sizeof(u_char) * size / 2);
+//    memcpy(yBytes, yuvBytes, sizeof(u_char) * size);
+//    memcpy(uvBytes, yuvBytes + size, sizeof(u_char) * size / 2);
+
     long during;
     long long startTime;
 
     startTime = currentTimeInMilliseconds();
 
-    polarrRender->initFilter(F_COMMON_6);
+    polarrRender->initFilter(F_COMMON_5);
 
     during = currentTimeInMilliseconds() - startTime;
 
@@ -74,11 +95,19 @@ Java_co_polarr_render_PolarrRenderJni_updateYUVData(JNIEnv *env, jclass type,
 
     startTime = currentTimeInMilliseconds();
 
-    polarrRender->applyFilter(yuvBytes);
+    polarrRender->applyFilter(yuvBytes, INPUT_YUV_TYPE_NV21);
     during = currentTimeInMilliseconds() - startTime;
     ALOGD("APPLY FILTER:%"
                   PRId64
                   "ms", during);
+
+
+//    memcpy(yuvBytes, yBytes, sizeof(u_char) * size);
+//    memcpy(yuvBytes + size, uvBytes, sizeof(u_char) * size / 2);
+//
+//
+//    delete yBytes;
+//    delete uvBytes;
 
     return as_byte_array(env, yuvBytes, len);
 }
